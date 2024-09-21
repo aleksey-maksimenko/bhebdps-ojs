@@ -33,8 +33,13 @@ describe("About Applying What We Have Learnt (about_applying_what_we_have_learnt
         }
       }
     }
-
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+	
+	// фильтр с подсчетом подошедших: отсутствуют орехи, есть грибы
+	let count = products.filter(product => 
+        !product.containsNuts && !product.ingredients.includes("mushrooms")
+    ).length;
+	
+    expect(productsICanEat.length).toBe(count); // 1
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (imperative)", function () {
@@ -46,7 +51,7 @@ describe("About Applying What We Have Learnt (about_applying_what_we_have_learnt
       }
     }
 
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   /*********************************************************************************/
@@ -58,7 +63,7 @@ describe("About Applying What We Have Learnt (about_applying_what_we_have_learnt
         ingredientCount[products[i].ingredients[j]] = (ingredientCount[products[i].ingredients[j]] || 0) + 1;
       }
     }
-
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+	// грибы входят в два рецепта
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 });
