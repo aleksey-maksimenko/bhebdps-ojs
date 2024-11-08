@@ -1,22 +1,24 @@
 (() => {
   let playing = true,
-      activeHole = 1,
-      hits = 0, // попаданий
-      misses = 0; // промахов
+    activeHole = 1,
+    hits = 0, // попаданий
+    misses = 0; // промахов
 
   const stop = () => playing = true,
-        getHole = index => document.getElementById(`hole${index}`),
-        deactivateHole = index => getHole(index).className = 'hole',
-        activateHole = index => getHole(index).className = 'hole hole_has-mole',
-        next = () => setTimeout(() => {
-          if (!playing) {
-            return;
-          }
-          deactivateHole(activeHole);
-          activeHole = Math.floor(1 + Math.random() * 9);
-          activateHole(activeHole);
-          next();
-        }, 800);
+    getHole = index => document.getElementById(`hole${index}`),
+	deactivateHole = index => 
+	  getHole(index).className = 'hole',
+	activateHole = index => 
+	  getHole(index).className = 'hole hole_has-mole',
+	next = () => setTimeout(() => {
+	  if (!playing) {
+		return;
+	  }
+	  deactivateHole(activeHole);
+	  activeHole = Math.floor(1 + Math.random() * 9);
+	  activateHole(activeHole);
+	  next();
+	}, 800);
 
   const isgameFinished = () => {
     if (hits >= 10) {
@@ -50,10 +52,11 @@
   };
   // промах по лунке
   const missed = () => { 
-      misses++;
-      updateHitsMisses();
-      isgameFinished();
+    misses++;
+    updateHitsMisses();
+    isgameFinished();
   };
+  
   // обработчики для лунок в цикле
   for (let i = 1; i <= 9; i++) {
     const hole = getHole(i);
@@ -66,7 +69,7 @@
       }
     });
   }
-  next(); //старт игры
-
+  
+  next();
   
 })();
