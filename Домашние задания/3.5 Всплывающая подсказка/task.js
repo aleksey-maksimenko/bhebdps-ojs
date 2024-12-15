@@ -1,26 +1,30 @@
 const tooltipElements = document.querySelectorAll('.has-tooltip');
 
+let activeTooltip = null; // активная подсказка
+
 function showTooltip(event) {
   event.preventDefault();
 
-  // обеспечиваем появление только одной подсказки на экране
-  const existingTooltip = document.querySelector('.tooltip');
-  if (existingTooltip) {
-    existingTooltip.remove();
+  const tooltipText = this.getAttribute('title');
+  
+  if (activeTooltip && activeTooltip.textContent === tooltipText) 
+    activeTooltip.classList.toggle('tooltip_active'); // если это повторный клик, инвертируем отображение подсказки
+    return; 
   }
 
-  // новая подсказка
-  const tooltipText = this.getAttribute('title');
+  if (activeTooltip) {
+    activeTooltip.remove();
+  }
+
   const tooltip = document.createElement('div');
   tooltip.className = 'tooltip tooltip_active';
   tooltip.textContent = tooltipText;
 
   document.body.appendChild(tooltip);
-
-  // позиционирование текста подсказки, регулируем отступы от ссылки
+  
   const rect = this.getBoundingClientRect();
   const tooltipRect = tooltip.getBoundingClientRect();
-  const position = this.getAttribute('data-position') || 'top'; // получаем позицию через атрибуты элементов
+  const position = this.getAttribute('data-position') || 'top'; 
   
   switch (position) {
     case 'top':
@@ -43,11 +47,12 @@ function showTooltip(event) {
       break;
   }
 
-  this.removeAttribute('title');
+  activeTooltip = tooltip;
 
   tooltip.addEventListener('click', () => {
     this.setAttribute('title', tooltipText);
     tooltip.remove();
+    activeTooltip = null;
   });
 }
 
